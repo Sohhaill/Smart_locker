@@ -1,7 +1,6 @@
 # smart_locker
 
-A new Flutter project.
-
+This flutter project send command to esp32 to open locker and manage finger print sensor receive notification whenever an unauthorized attempt occurs and save the activity of login user in firebase login page has email authentication phone authentication send otp to verify user email and phone number,control buzzer and display the webview of esp32 cam we cam also control cam web from this flutter application 
 ## Getting Started
 
 This project is a starting point for a Flutter application.
