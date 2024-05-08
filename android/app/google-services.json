@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "913256556954",
+    "project_id": "final-project-bab20",
+    "storage_bucket": "final-project-bab20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913256556954:android:de76f1d7ed23c4001a3223",
+        "android_client_info": {
+          "package_name": "com.example.smart_locker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzxJa3tIqs7_MM6EYcmkhVe2UOl8z_EIo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

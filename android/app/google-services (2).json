@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "913256556954",
+    "firebase_url": "https://final-project-bab20-default-rtdb.firebaseio.com",
+    "project_id": "final-project-bab20",
+    "storage_bucket": "final-project-bab20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913256556954:android:de76f1d7ed23c4001a3223",
+        "android_client_info": {
+          "package_name": "com.example.smart_locker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "913256556954-3dt84b2qomt76oip67s2kj7kd0epctju.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.smart_locker",
+            "certificate_hash": "56941d7064570457a66ee82e96c6b372d07fae7e"
+          }
+        },
+        {
+          "client_id": "913256556954-narrn9je9bp2euanc2p6ub0o3de0je7k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzxJa3tIqs7_MM6EYcmkhVe2UOl8z_EIo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "913256556954-7lr892ejmkvq94nndtror4338aco032i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
