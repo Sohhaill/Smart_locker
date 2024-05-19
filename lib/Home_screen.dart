@@ -5,6 +5,7 @@ import 'package:smart_locker/Screen2.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:smart_locker/gmail.dart';
 import 'package:smart_locker/phone.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 
@@ -17,7 +18,7 @@ class HomeScreen extends StatelessWidget {
     String password = "";
 
     FirebaseAuth _auth = FirebaseAuth.instance;
-    GoogleSignIn _googleSignIn = GoogleSignIn();
+    final GoogleSignIn _googleSignIn = GoogleSignIn();
 
     Future<void> login() async {
       try {
@@ -79,134 +80,6 @@ class HomeScreen extends StatelessWidget {
     }
 
 
-
-
-
-    Future<void> signup() async {
-      try {
-        UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
-        // If signup is successful, show AlertDialog
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text('Successfully Registered'),
-            );
-          },
-        );
-      } catch (e) {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text("Signup Failed"),
-              content: Text(e.toString()),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text("OK"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      }
-    }
-
-    Future<void> signInWithGoogle() async {
-      try {
-        // Sign out the current user (if any) to ensure that the user can choose an account
-        await _googleSignIn.signOut();
-
-        final GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
-        if (googleSignInAccount == null) {
-          // User cancelled the Google sign-in process
-          return;
-        }
-
-        final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
-
-        final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken,
-        );
-
-        final UserCredential userCredential = await _auth.signInWithCredential(credential);
-
-        // Check if the user's Google account is already linked with an existing account
-        final User? user = userCredential.user;
-        final AdditionalUserInfo? additionalUserInfo = userCredential.additionalUserInfo;
-
-        if (user != null) {
-          if (additionalUserInfo != null && additionalUserInfo.isNewUser) {
-            // User is a new user, show a message that the account is not registered
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text('Account Not Registered'),
-                  content: Text('Your Google account is not registered. Please contact support for assistance.'),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text('OK'),
-                    ),
-                  ],
-                );
-              },
-            );
-            // Sign out the user as their account is not registered
-            await _auth.signOut();
-          } else {
-            // User already has an account, navigate to Screen2
-            var server = await startServer(); // Initialize the server
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Screen2(server: server)),
-            );
-
-            // Save the user's account details here if desired
-            // Example: saveUser(user);
-          }
-        }
-      } catch (e) {
-        print('Google Sign-In error: $e');
-        // Handle Google Sign-In error
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('Error'),
-              content: Text('An error occurred during Google Sign-In. Please try again later.'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
-      }
-    }
-
-
-
-
-
-
-
-
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xff764abc),
@@ -227,11 +100,6 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-
-
-
-
-
 
               const Center(
                 child: Text(
@@ -327,7 +195,6 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 5,
               ),
-
 
               const SizedBox(
                 height: 15,

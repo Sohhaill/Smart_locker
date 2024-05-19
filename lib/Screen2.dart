@@ -66,7 +66,7 @@ class _Screen2State extends State<Screen2> {
   String? loggedInUserEmail;
   bool _dataSaved = false;
   bool _dataSaved1 = false;
-  late String base64Image;
+  String base64Image = '';
 
 
 
@@ -75,10 +75,8 @@ class _Screen2State extends State<Screen2> {
     super.initState();
 
     // Initialize Flutter Local Notifications
-    var initializationSettingsAndroid =
-    const AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettings =
-    InitializationSettings(android: initializationSettingsAndroid);
+    var initializationSettingsAndroid = const AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettings = InitializationSettings(android: initializationSettingsAndroid);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
     // Listen for requests
@@ -93,12 +91,10 @@ class _Screen2State extends State<Screen2> {
             print('Received image from ESP32 cam:');
             // Print the base64 encoded image data
             setState(() {
-              // Handle the received image data, you can decode the base64 string and display or process it as needed
-              // For example, you can display the image in an Image widget:
+              // Handle the received image data
               // _image = Image.memory(bodyBytes);
             });
-          }
-          else {
+          } else {
             // Handle other types of requests
             final requestBody = await utf8.decoder.bind(request).join();
             print('Received message from ESP32 cam: $requestBody');
@@ -107,20 +103,27 @@ class _Screen2State extends State<Screen2> {
               message = requestBody; // Update the message to display on the screen
             });
             _showNotification('Received message: $requestBody');
-            if (requestBody == 'Unauthorized Person detected') {
-              _showNotification('Received message: $requestBody');
-            } else if (requestBody == 'New user added successfully.') {
-              _showNotification('New user added successfully.');
-            } else if (requestBody == 'Fingerprint deleted successfully.') {
-              _showNotification('Fingerprint deleted successfully.');
-            } else if (requestBody == 'Lock is open') {
-              _showNotification('Lock is open');
-            } else if (requestBody == 'Please type in the ID # (from 1 to 10) you want to save this finger as...') {
-              // Handle other types of messages
-            } else if (requestBody == 'Lock is close') {
-              _showNotification('Lock is close');
-            } else {
-              _showNotification('Unknown message received: $requestBody');
+            switch (requestBody) {
+              case 'Unauthorized Person detected':
+                _showNotification('Received message: $requestBody');
+                break;
+              case 'New user added successfully.':
+                _showNotification('New user added successfully.');
+                break;
+              case 'Fingerprint deleted successfully.':
+                _showNotification('Fingerprint deleted successfully.');
+                break;
+              case 'Lock is open':
+                _showNotification('Lock is open');
+                break;
+              case 'Please type in the ID # (from 1 to 10) you want to save this finger as...':
+              // Handle specific message without notification
+                break;
+              case 'Lock is close':
+                _showNotification('Lock is close');
+                break;
+              default:
+                _showNotification('Unknown message received: $requestBody');
             }
           }
 
@@ -142,8 +145,8 @@ class _Screen2State extends State<Screen2> {
           ..close();
       }
     });
-
   }
+
 
   Future<void> _showNotification(String message) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
@@ -164,7 +167,7 @@ class _Screen2State extends State<Screen2> {
   }
 
   Future<void> sendCommand(String command, {String? parameter}) async {
-     final url = 'http://172.20.10.4:$SERVER_PORT';
+     final url = 'http://192.168.100.15:$SERVER_PORT';
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -376,7 +379,7 @@ class _Screen2State extends State<Screen2> {
           ),
         ),
         child: const Text(
-          'Unlock',
+          'lock',
           style: TextStyle(fontSize: 15),
         ),
       ),
@@ -620,7 +623,7 @@ class _Screen2State extends State<Screen2> {
           ),
         ),
         child: const Text(
-          'Lock',
+          'UnLock',
           style: TextStyle(fontSize: 15),
         ),
       ),
@@ -736,7 +739,7 @@ class _Screen2State extends State<Screen2> {
       case 0:
         return Center(
           child:  WebView(
-            initialUrl: 'http://172.20.10.2',
+            initialUrl: 'http://192.168.100.16',
             javascriptMode: JavascriptMode.unrestricted,
             onWebViewCreated: (WebViewController webViewController) {
               _controller = webViewController;
