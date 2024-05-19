@@ -167,7 +167,7 @@ class _Screen2State extends State<Screen2> {
   }
 
   Future<void> sendCommand(String command, {String? parameter}) async {
-     final url = 'http://192.168.100.15:$SERVER_PORT';
+    final url = 'http://192.168.100.15:$SERVER_PORT';
     try {
       final response = await http.post(
         Uri.parse(url),
@@ -208,25 +208,25 @@ class _Screen2State extends State<Screen2> {
   }
   Stream<List<Map<String, dynamic>>> retrieveUnauthorizedData() {
     final reference = FirebaseDatabase.instance.reference().child('unauthorized');
-  try {
-    return reference.onValue.map((event) {
-      if (event.snapshot.value != null) {
-        List<Map<String, dynamic>> dataList = [];
-        if (event.snapshot.value is Map<dynamic, dynamic>) {
-          Map<dynamic, dynamic> snapshotValue = event.snapshot.value as Map<dynamic, dynamic>;
-          snapshotValue.forEach((key, value) {
-            dataList.add(Map<String, dynamic>.from(value));
-          });
+    try {
+      return reference.onValue.map((event) {
+        if (event.snapshot.value != null) {
+          List<Map<String, dynamic>> dataList = [];
+          if (event.snapshot.value is Map<dynamic, dynamic>) {
+            Map<dynamic, dynamic> snapshotValue = event.snapshot.value as Map<dynamic, dynamic>;
+            snapshotValue.forEach((key, value) {
+              dataList.add(Map<String, dynamic>.from(value));
+            });
+          }
+          return dataList;
+        } else {
+          return [];
         }
-        return dataList;
-      } else {
-        return [];
-      }
-    });
-  } catch (e) {
-    print('Error fetching data: $e');
-    return Stream.value([]); // Return an empty stream if an error occurs
-  }
+      });
+    } catch (e) {
+      print('Error fetching data: $e');
+      return Stream.value([]); // Return an empty stream if an error occurs
+    }
   }
 
 
@@ -379,7 +379,7 @@ class _Screen2State extends State<Screen2> {
           ),
         ),
         child: const Text(
-          'lock',
+          'Unlock',
           style: TextStyle(fontSize: 15),
         ),
       ),
@@ -623,7 +623,7 @@ class _Screen2State extends State<Screen2> {
           ),
         ),
         child: const Text(
-          'UnLock',
+          'Lock',
           style: TextStyle(fontSize: 15),
         ),
       ),
